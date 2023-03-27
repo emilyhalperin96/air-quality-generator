@@ -1,37 +1,57 @@
 from flask import Flask, make_response, jsonify, request
 from flask_cors import CORS
+from models import db
 import requests
-import json
-import logging 
+# Add imports for database, user authentication, and AirVisual API
 
 app = Flask(__name__)
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///air_quality.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
+
+db.init_app(app)
+
+
+with app.app_context():
+    db.create_all()
+
+@app.route('/register', methods=['POST'])
+def register_user():
+    
+    pass
+
+@app.route('/login', methods=['POST'])
+def login_user():
+
+    pass
+
+@app.route('/logout', methods=['POST'])
+def logout_user():
+ 
+    pass
+
+@app.route('/locations', methods=['POST', 'GET', 'DELETE'])
+def manage_user_locations():
+    pass
+
+@app.route('/air_quality', methods=['GET'])
+def get_location_air_quality():
+    lat = request.args.get('lat')
+    lon = request.args.get('lon')
+    airvisual_api_key = '91c867ed-854a-4bd5-948d-576454a4bfc7'
+    airvisual_url = f'https://api.airvisual.com/v2/nearest_city?lat={lat}&lon={lon}&key={airvisual_api_key}'
+
+    response = requests.get(airvisual_url)
+    
+    if response.status_code == 200:
+        air_quality_data = response.json()
+        return jsonify(air_quality_data)
+    else:
+        return make_response(jsonify({'error': 'Failed to fetch air quality data'}), response.status_code)
 
 @app.route('/')
 def root():
     return ''
 
-@app.route('/api/garbagedetection', methods=['POST'])
-def garbage_detection():
-    image_url = request.form.get('image_url')
-    logging.debug(f"Received image_url: {image_url}")
-    # api_key = 'ec0c3746c2msh3b20cf4e4f8342bp1b0d3djsnc79b06985708'
-
-    headers = {
-        'content-type': 'application/json',
-        'X-RapidAPI-Key': 'ec0c3746c2msh3b20cf4e4f8342bp1b0d3djsnc79b06985708',
-        'X-RapidAPI-Host': 'reciclapi-garbage-detection.p.rapidapi.com'
-    }
-    data = json.dumps({'image': image_url})
-    response = requests.post('https://reciclapi-garbage-detection.p.rapidapi.com/predict', headers=headers, data=data)
-    logging.debug(f"API response status code: {response.status_code}")
-
-    if response.status_code == 200:
-        return jsonify(response.json())
-    else:
-        return jsonify({'error': 'API request failed'}), 500
-
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
     app.run(port=5555)
