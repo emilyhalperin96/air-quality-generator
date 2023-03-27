@@ -1,6 +1,7 @@
 from flask import Flask, make_response, jsonify, request
 from flask_cors import CORS
-from models import db
+from models import db, User
+from flask_migrate import Migrate
 import requests
 # Add imports for database, user authentication, and AirVisual API
 
@@ -14,6 +15,21 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
+
+@app.route('/users', methods=['GET', 'POST'])
+def users():
+    if request.method == 'GET':
+        print(([user.to_dict() for user in User.query.all()]))
+        return make_response(jsonify([user.to_dict() for user in User.query.all()]))
+    if request.method == 'POST':
+        data = request.get_json()
+        user = User(name=data.get('name'), email=data.get('email'))
+        db.session.add(user)
+        db.session.commit()
+        return make_response(
+            jsonify({'id': customer.id, 'name': customer.name, 'email': customer.email})
+        )
+
 
 @app.route('/register', methods=['POST'])
 def register_user():
