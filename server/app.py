@@ -27,7 +27,7 @@ def users():
         db.session.add(user)
         db.session.commit()
         return make_response(
-            jsonify({'id': customer.id, 'name': customer.name, 'email': customer.email})
+            jsonify({'id': user.id, 'name': user.name, 'email': user.email})
         )
 
 
