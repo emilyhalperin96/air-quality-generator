@@ -14,13 +14,12 @@ const About = () => {
     return (
 
         <div className='text-white'>
-            <div className='max-w-[500px] mt-20 w-full h-screen mx-auto text-center flex flex-col justify-center'>
-                <p className='text-[#00df9a] font-bold p-2'>text text text</p>
-                <h1 className='md:text-7xl sm:text-6xl text-4xl font-bold md:py-6'>more text</h1>
+            <div className='max-w-[500px] mt-30 w-full h-screen mx-auto text-center flex flex-col justify-center'>
+                <h1 className='text-6xl font-bold md:py-6'>Air Quality Application</h1>
                 <div>
-                    <p className='md:text-5xl sm:text-4xl text-xl font-bold'>moreeeeee text</p>
+                    <p className='text-2xl font-bold'>This application allows users to look up the air quality in a given city. Once you input you're city, you'll recieve help tips.</p>
                     <button onClick={handleForm} className='bg-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>
-                        Click to Sign Up </button>
+                        Click to Get Access</button>
                         {showForm ? <Signup /> : null}
                 </div>
             </div>
