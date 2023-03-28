@@ -11,6 +11,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
 
 db.init_app(app)
+migrate = Migrate(app, db)
 
 
 with app.app_context():
@@ -19,14 +20,23 @@ with app.app_context():
 @app.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
-    user = User(
-        name=data.get('name'), 
-        email=data.get('email'),
+    new_user = User(
+        name=data['name'], 
+        email=data['email'],
     )
-    db.session.add(user)
+    db.session.add(new_user)
     db.session.commit()
-    session['user_id'] = user.id
-    return make_response(jsonify(data.to_dict()), 201)
+    session['user_id'] = new_user.id
+    return make_response(jsonify(new_user.to_dict()), 201)
+
+#add userid to the session
+
+@app.route('/checksession', methods=['GET'])
+def checksession():
+    if session.get('user_id'):
+        user = User.query.filter(User.id == session['user_id']).first()
+        return user.to_dict(), 200
+    return {'error': '401 Unathorized'}, 401
 
 
 
@@ -54,4 +64,4 @@ def root():
     return ''
 
 if __name__ == '__main__':
-    app.run(port=5555)
+    app.run(port=5000)
