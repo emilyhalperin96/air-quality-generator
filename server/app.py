@@ -4,10 +4,12 @@ from models import db, User
 from flask_migrate import Migrate
 import requests
 # Add imports for database, user authentication, and AirVisual API
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///air_quality.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = os.environ.get('SECRET_KEY')
 CORS(app)
 
 db.init_app(app)
@@ -19,15 +21,16 @@ with app.app_context():
 
 @app.route('/signup', methods=['POST'])
 def signup():
+    #import pdb; pdb.set_trace()
     data = request.get_json()
-    new_user = User(
+    user = User(
         name=data['name'], 
         email=data['email'],
     )
-    db.session.add(new_user)
+    db.session.add(user)
     db.session.commit()
-    session['user_id'] = new_user.id
-    return make_response(jsonify(new_user.to_dict()), 201)
+    session['user_id'] = user.id
+    return make_response(jsonify(user.to_dict()), 201)
 
 #add userid to the session
 
