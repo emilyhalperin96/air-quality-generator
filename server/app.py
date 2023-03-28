@@ -35,11 +35,12 @@ def manage_user_locations():
     pass
 
 @app.route('/air_quality', methods=['GET'])
+@app.route('/air_quality', methods=['GET'])
 def get_location_air_quality():
-    lat = request.args.get('lat')
-    lon = request.args.get('lon')
+    city = request.args.get('city')
+    country = request.args.get('country')
     airvisual_api_key = '91c867ed-854a-4bd5-948d-576454a4bfc7'
-    airvisual_url = f'https://api.airvisual.com/v2/nearest_city?lat={lat}&lon={lon}&key={airvisual_api_key}'
+    airvisual_url = f'https://api.airvisual.com/v2/city?city={city}&country={country}&key={airvisual_api_key}'
 
     response = requests.get(airvisual_url)
     
@@ -47,6 +48,7 @@ def get_location_air_quality():
         air_quality_data = response.json()
         return jsonify(air_quality_data)
     else:
+        print(f"Error fetching air quality data: {response.status_code} - {response.text}")
         return make_response(jsonify({'error': 'Failed to fetch air quality data'}), response.status_code)
 
 @app.route('/')

@@ -1,20 +1,21 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import About from './components/About';
-import LocationDetails from './components/LocationDetails';
-import UserDashboard from './components/UserDashboard';
+import LocationDetails from './LocationDetails';
+import UserDashboard from './UserDashboard';
 
 function App() {
   return (
     <div>
       <Router>
         <Navbar />
-        <Switch>
-          <Route exact path="/" component={About} />
-          <Route path="/location/:id" component={LocationDetails} />
-          <Route path="/dashboard" component={UserDashboard} />
-        </Switch>
+        <Routes>
+          <Route exact path="/" element={<About />} />
+          <Route path ="/navbar" element={<Navbar />} />
+          <Route path="/location/:id" element={<LocationDetails />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
+        </Routes>
       </Router>
     </div>
   );

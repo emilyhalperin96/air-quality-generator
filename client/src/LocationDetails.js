@@ -3,6 +3,8 @@ import AirQuality from './AirQuality';
 import HealthTips from './HealthTips';
 
 function LocationDetails() {
+  
+
   return (
     <div>
       <h2>Location Details</h2>
