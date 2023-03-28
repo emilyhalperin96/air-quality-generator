@@ -5,10 +5,10 @@ db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    name = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(255), nullable=False)
-    saved_locations = db.relationship('UserLocation', backref='user', lazy=True)
+    #password = db.Column(db.String(255), nullable=False)
+    #saved_locations = db.relationship('UserLocation', backref='user', lazy=True)
 
     def to_dict(self):
         return {
@@ -26,7 +26,7 @@ class Location(db.Model):
     longitude = db.Column(db.Float, nullable=False)
     saved_users = db.relationship('UserLocation', backref='location', lazy=True)
 
-#class UserLocation(db.Model):
-#    id = db.Column(db.Integer, primary_key=True)
-#    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-#    location_id = db.Column(db.Integer, db.ForeignKey('location.id'), nullable=False)
+class UserLocation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    location_id = db.Column(db.Integer, db.ForeignKey('location.id'), nullable=False)

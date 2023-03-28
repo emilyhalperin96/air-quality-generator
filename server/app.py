@@ -1,4 +1,4 @@
-from flask import Flask, make_response, jsonify, request
+from flask import Flask, make_response, jsonify, request, session
 from flask_cors import CORS
 from models import db, User
 from flask_migrate import Migrate
@@ -16,39 +16,23 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-@app.route('/users', methods=['GET', 'POST'])
-def users():
-    if request.method == 'GET':
-        print(([user.to_dict() for user in User.query.all()]))
-        return make_response(jsonify([user.to_dict() for user in User.query.all()]))
-    if request.method == 'POST':
-        data = request.get_json()
-        user = User(name=data.get('name'), email=data.get('email'))
-        db.session.add(user)
-        db.session.commit()
-        return make_response(
-            jsonify({'id': user.id, 'name': user.name, 'email': user.email})
-        )
+@app.route('/signup', methods=['POST'])
+def signup():
+    data = request.get_json()
+    user = User(
+        name=data.get('name'), 
+        email=data.get('email'),
+    )
+    db.session.add(user)
+    db.session.commit()
+    session['user_id'] = user.id
+    return make_response(jsonify(data.to_dict()), 201)
 
 
-@app.route('/register', methods=['POST'])
-def register_user():
-    
-    pass
 
-@app.route('/login', methods=['POST'])
-def login_user():
-
-    pass
-
-@app.route('/logout', methods=['POST'])
-def logout_user():
- 
-    pass
-
-@app.route('/locations', methods=['POST', 'GET', 'DELETE'])
-def manage_user_locations():
-    pass
+#@app.route('/locations', methods=['POST', 'GET', 'DELETE'])
+#def manage_user_locations():
+    #pass
 
 @app.route('/air_quality', methods=['GET'])
 def get_location_air_quality():
