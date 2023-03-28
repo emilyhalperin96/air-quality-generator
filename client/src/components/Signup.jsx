@@ -2,33 +2,32 @@ import React from "react";
 //import {useFormik} from "formik";
 //import * as yup from "yup";
 import {useState, useEffect} from 'react';
+import LocationDetails from './LocationDetails'
 
 const Signup = () => {
   const [name, setName] = useState('')
-  const [email, setEmail] = useState()
+  const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-   
-    const handleSubmit = (e) => {
+
+  const handleSubmit = (e) => {
       e.preventDefault();
       setIsLoading(true);
-      fetch('/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        name,
-      }),
-    }).then((r) => {
-      setIsLoading(false);
-    })
-    
     }
+
+    //useEffect(() => {
+    //fetch("/movies").then(response =>
+      //response.json().then(data => {
+        //setMovies(data.movies);
+      //})
+    //);
+  //}, []);
+
+    
     return(
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-white">Sign up</h2>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-white">Enter Email & Name</h2>
 
           </div>
           <form onSubmit={handleSubmit} className="mt-8 space-y-6" action="#" method="POST">
@@ -76,7 +75,22 @@ const Signup = () => {
             </div>
             <div className="flex items-center justify-between"></div>
             <div>
-              <button
+              <button 
+              onClick={async () => {
+                const user = {name, email};
+                const response = await fetch('/signup', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  }, 
+                  body: JSON.stringify(user)
+                })
+                if (response.ok) {
+                  console.log('response worked');
+                  setName('')
+                  setEmail('')
+                }
+              }}
                 type="submit"
                 className="group relative w-full flex justify-center
                 py-2 px-4 border border-transparent text-sm font-medium
@@ -86,6 +100,7 @@ const Signup = () => {
               >
                 {isLoading ? "Loading..." : "Sign Up"}
               </button>
+              <LocationDetails />
             </div>
           </form>
         </div>
