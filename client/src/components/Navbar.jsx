@@ -10,7 +10,7 @@ const Navbar = () => {
 
     return (
         <div className=' flex justify-between items-center h-20 max-w-[1240] mx-auto px-4 text-white'>
-            <h1 className='w-full text-3xl font-bold text-[#00df9a]'>Project Title</h1>
+            <h1 className='w-full text-3xl font-bold text-[#00df9a]'>Air Quality X City</h1>
             <ul className='list-none flex'>
                 <li className='p-4'>Home</li>
                 <li className='p-4'>About</li>
