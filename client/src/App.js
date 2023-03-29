@@ -6,7 +6,7 @@ import LocationDetails from './components/LocationDetails';
 import UserDashboard from './components/UserDashboard';
 
 function App() {
- 
+
   return (
     <div>
       <Router>
@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<About />} />
           <Route path ="/navbar" element={<Navbar />} />
-          <Route path="/location/:id" element={<LocationDetails />} />
+          <Route path="/location-details" element={<LocationDetails />} />
           <Route path="/dashboard" element={<UserDashboard />} />
         </Routes>
       </Router>

@@ -3,16 +3,31 @@ import React from "react";
 //import * as yup from "yup";
 import {useState, useEffect} from 'react';
 import LocationDetails from './LocationDetails'
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-      e.preventDefault();
-      setIsLoading(true);
-    }
+    e.preventDefault();
+    setIsLoading(true);
+    fetch('/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        name,
+      }),
+    }).then((r) => {
+      setIsLoading(false);
+      navigate('/location-details');
+    });
+  };
+
+ 
 
     //useEffect(() => {
     //fetch("/movies").then(response =>
