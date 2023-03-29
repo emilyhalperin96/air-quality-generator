@@ -9,7 +9,12 @@ const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showLocation, setShowLocation] = useState(false);
   const navigate = useNavigate();
+
+  const handleLocationForm = () => {
+    setShowLocation((showLocaiton) => !showLocation)
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,17 +31,6 @@ const Signup = () => {
       navigate('/location-details');
     });
   };
-
- 
-
-    //useEffect(() => {
-    //fetch("/movies").then(response =>
-      //response.json().then(data => {
-        //setMovies(data.movies);
-      //})
-    //);
-  //}, []);
-
     
     return(
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -104,8 +98,8 @@ const Signup = () => {
                   console.log('response worked');
                   setName('')
                   setEmail('')
-                }
-              }}
+                } 
+                handleLocationForm()}}
                 type="submit"
                 className="group relative w-full flex justify-center
                 py-2 px-4 border border-transparent text-sm font-medium
@@ -114,8 +108,8 @@ const Signup = () => {
                 focus:ring-indigo-500"
               >
                 {isLoading ? "Loading..." : "Sign Up"}
+                {showLocation ? <LocationDetails /> : null}
               </button>
-              <LocationDetails />
             </div>
           </form>
         </div>
@@ -125,3 +119,5 @@ const Signup = () => {
 export default Signup;
 
 
+//onClick={handleForm} on the button 
+//{showForm ? <Signup /> : null}

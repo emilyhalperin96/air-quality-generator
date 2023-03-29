@@ -5,12 +5,11 @@ import placeholder from '../assets/placeholder.png'
 
 function LocationDetails() {
   return (
-    <div className='w-full bg-white py-16 px-4'>
-      <div className='max-w-[1240px] mx-auto grid md:grid-cols-2'>
-        <img className='w-[500px] mx-auto' src={placeholder} />
-        <div>
-          <h1>Location Details</h1>
-          <p>text text text text</p>
+    <div className='w-full bg-[#768781] py-20 px-6'>
+      <div className='max-w-[1240px] mx-auto py-1 px-5'>
+        <div className='flex justify-center'>
+          <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2 -mt-4 text-white'>AQ Data Generator</h1>
+          <p></p>
         </div>
       {/* Implement logic for fetching air quality data and displaying it */}
       <AirQuality />
