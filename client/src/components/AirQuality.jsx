@@ -15,7 +15,7 @@ function AirQuality() {
     const fetchData = async () => {
       try {
       //  const response = await fetch(`${apiUrl}?city=${search.city}&state=${search.state}&country=${search.country}&key=${apiKey}`); 
-         const response = await fetch(`${apiUrl}?city=${city}&state=${state}&country=${country}&key=${apiKey}`, {mode: 'no-cors'}); 
+         const response = await fetch(`${apiUrl}?city=${city}&state=${state}&country=${country}&key=${apiKey}`,); 
         
         if (response.ok) {
           const data = await response.json();
