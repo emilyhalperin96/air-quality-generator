@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
+
 
 function AirQuality() {
   const [apiData, setApiData] = useState(null);
