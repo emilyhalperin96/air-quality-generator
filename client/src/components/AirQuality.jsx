@@ -10,7 +10,7 @@ function AirQuality() {
   // useEffect(() => {
     // if (!search.city) return;
 
-    const apiUrl = 'http://127.0.0.1:5000/air_quality';
+    const apiUrl = 'http://127.0.0.1:5001/air_quality';
     const apiKey = '91c867ed-854a-4bd5-948d-576454a4bfc7';
     const fetchData = async () => {
       try {
@@ -39,6 +39,19 @@ function AirQuality() {
     // console.log(search)
     fetchData()
     console.log(city, state, country)
+  };
+
+
+  const renderHealthTips = (aqi) => {
+    if (aqi <= 50) {
+      return 'Air quality is satisfactory, and air pollution poses little or no risk.';
+    } else if (aqi <= 100) {
+      return 'Air quality is acceptable. Sensitive individuals should consider limiting prolonged outdoor exertion.';
+    } else if (aqi <= 150) {
+      return 'Members of sensitive groups may experience health effects. The general public is not likely to be affected.';
+    } else {
+      return 'Everyone may begin to experience health effects. Members of sensitive groups may experience more serious health effects.';
+    }
   };
 
   return (
@@ -90,14 +103,15 @@ function AirQuality() {
               </p>
               )}
               {apiData && (
-              <p className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">render health tips
-              </p>
-              )}
-            </div>
+              <>
+                <p className="block text-gray-700 text-sm font-bold mb-5">Health Tips:</p>
+                <p className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{renderHealthTips(apiData.data.current.pollution.aqius)}</p>
+              </>
+            )}
           </div>
         </div>
+      </div>
     </div>
-    
   );
 
 }
