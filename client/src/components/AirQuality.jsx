@@ -1,132 +1,119 @@
 import React, { useState, useEffect } from 'react';
-import Search from './Search';
 
 function AirQuality() {
   const [apiData, setApiData] = useState(null);
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [country, setCountry] = useState('');
+  const [search, setSearch] = useState({ city: '', state: '', country: '' });
 
-  const apiKey = '91c867ed-854a-4bd5-948d-576454a4bfc7';
+  // useEffect(() => {
+    // if (!search.city) return;
 
-  useEffect(() => {
-    const fetchCountries = async () => {
+    const apiUrl = 'http://127.0.0.1:5001/air_quality';
+    const apiKey = '91c867ed-854a-4bd5-948d-576454a4bfc7';
+    const fetchData = async () => {
       try {
-        const response = await fetch(`http://api.airvisual.com/v2/countries?key=${apiKey}`);
-        const data = await response.json();
-        setCountries(data.data);
-      } catch (error) {
-        console.error('Error fetching countries:', error);
-      }
-    };
-    fetchCountries();
-  }, []);
-
-  useEffect(() => {
-    if (!selectedCountry) return;
-  
-    const fetchStates = async () => {
-      try {
-        const response = await fetch(`http://api.airvisual.com/v2/states?country=${selectedCountry}&key=${apiKey}`);
-        const data = await response.json();
-        if (Array.isArray(data.data)) {
-          setStates(data.data);
+      //  const response = await fetch(`${apiUrl}?city=${search.city}&state=${search.state}&country=${search.country}&key=${apiKey}`); 
+         const response = await fetch(`${apiUrl}?city=${city}&state=${state}&country=${country}&key=${apiKey}`); 
+        
+        if (response.ok) {
+          const data = await response.json();
+          setApiData(data);
+          console.log(data)
         } else {
-          setStates([]);
+          console.error('Error fetching API data:', response.statusText);
         }
       } catch (error) {
-        console.error('Error fetching states:', error);
+        console.error('Error fetching API data:', error);
       }
     };
-    fetchStates();
-  }, [selectedCountry]);
 
-  useEffect(() => {
-    if (!selectedState) return;
-  
-    const fetchCities = async () => {
-      try {
-        const response = await fetch(`http://api.airvisual.com/v2/cities?state=${selectedState}&country=${selectedCountry}&key=${apiKey}`);
-        const data = await response.json();
-        if (Array.isArray(data.data)) {
-          setCities(data.data);
-        } else {
-          setCities([]);
-        }
-      } catch (error) {
-        console.error('Error fetching cities:', error);
-      }
-    };
-    fetchCities();
-  }, [selectedState]);
+    // fetchData();
+  // }, [search]);
 
-  // const fetchAirQualityData = async () => {
-  //   try {
-  //     const response = await fetch(`http://api.airvisual.com/v2/city?city=${selectedCity}&state=${selectedState}&country=${selectedCountry}&key=${apiKey}`);
-  //     const data = await response.json();
-  //     console.log('Air Quality Data:', data);
-  //   } catch (error) {
-  //     console.error('Error fetching air quality data:', error);
-  //   }
-  // };
 
-  const handleCountryChange = (event) => {
-
-    setSelectedCountry(event.target.value);
-  };
-
-  const handleStateChange = (event) => {
-    setSelectedState(event.target.value);
-  };
-
-  const handleCityChange = (event) => {
-    setSelectedCity(event.target.value);
+  const handleSearch = (event) => {
+    event.preventDefault();
+    // setSearch({ city: city, state: state, country: country });
+    // console.log(search)
+    fetchData()
+    console.log(city, state, country)
   };
 
 
+  const renderHealthTips = (aqi) => {
+    if (aqi <= 50) {
+      return 'Air quality is satisfactory, and air pollution poses little or no risk.';
+    } else if (aqi <= 100) {
+      return 'Air quality is acceptable. Sensitive individuals should consider limiting prolonged outdoor exertion.';
+    } else if (aqi <= 150) {
+      return 'Members of sensitive groups may experience health effects. The general public is not likely to be affected.';
+    } else {
+      return 'Everyone may begin to experience health effects. Members of sensitive groups may experience more serious health effects.';
+    }
+  };
 
   return (
-    <div>
-      <h1>Air Quality</h1>
-  
-      <label htmlFor="country">Country:</label>
-      <select id="country" value={selectedCountry} onChange={handleCountryChange}>
-        <option value="">Select Country</option>
-        {countries.map((country) => (
-          <option key={country.country} value={country.country}>
-            {country.country}
-          </option>
-        ))}
-      </select>
-  
-      <label htmlFor="state">State:</label>
-      <select id="state" value={selectedState} onChange={handleStateChange} disabled={!selectedCountry}>
-        <option value="">Select State</option>
-        {states.map((state) => (
-          <option key={state.state} value={state.state}>
-            {state.state}
-          </option>
-        ))}
-      </select>
-  
-      <label htmlFor="city">City:</label>
-      <select id="city" value={selectedCity} onChange={handleCityChange} disabled={!selectedState}>
-        <option value="">Select City</option>
-        {cities.map((city) => (
-          <option key={city.city} value={city.city}>
-            {city.city}
-          </option>
-        ))}
-      </select>
-  
-      {/* <button onClick={fetchAirQualityData}>Search</button> */}
-  
-      {/* Render the air quality data for the selected city here */}
-      <Search apiKey={apiKey} selectedCountry={selectedCountry} selectedState={selectedState} selectedCity={selectedCity} />
+    <div className="w-full max-w-xs mr-10 flex justify-center">
+      <form className="bg-white shadow-md rounded px-12 pt-6 pb-8 mb-5 mr-10" onSubmit={handleSearch}>
+      <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">City</label>
+        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          placeholder="Enter city"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+        />
+        </div>
+        <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">State</label>
+        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          placeholder="Enter state"
+          value={state}
+          onChange={(e) => setState(e.target.value)}
+        />
+        </div>
+        <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">Country</label>
+        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          placeholder="Enter country"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+        />
+        </div>
+        <button className="bg-[#00df9a] hover:bg-[#c8e1d9] text-white font-bold py-2 px-4 rounded-full" type="submit">Search</button>
+      </form>
+       
+      <div className="w-full max-w-xs flex justify-center">
+        <div className="bg-white shadow-md rounded px-12 pt-6 pb-8 mb-4">
+          <div id="parent" className="mb-4">
+            {apiData && (
+              <h1 className="block text-gray-700 text-sm font-bold -mb-1 whitespace-nowrap">Air Quality Index (US):
+              </h1>
+              )}
+              {apiData && (
+              <p className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{apiData.data.current.pollution.aqius}
+              </p>
+              )}
+              {apiData && (
+              <p className="block text-gray-700 text-sm font-bold mb-5">Health Tips:
+              </p>
+              )}
+              {apiData && (
+              <>
+                <p className="block text-gray-700 text-sm font-bold mb-5">Health Tips:</p>
+                <p className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{renderHealthTips(apiData.data.current.pollution.aqius)}</p>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
-        }
+
+}
+
 export default AirQuality;
