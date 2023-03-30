@@ -14,7 +14,7 @@ const About = () => {
     return (
 
         <div className='text-white'>
-            <div className='max-w-[500px] mt-30 w-full h-screen mx-auto text-center flex flex-col justify-center'>
+            <div className='max-w-[500px] mt-30 mx-auto text-center flex flex-col justify-center'>
                 <h1 className='text-6xl font-bold md:py-6'>Air Quality Application</h1>
                 <div>
                     <p className='text-2xl font-bold'>This application allows users to look up the air quality in a given city. Once you input you're city, you'll recieve help tips.</p>
