@@ -42,10 +42,10 @@ function AirQuality() {
   };
 
   return (
-    <div className="w-full max-w-xs flex justify-center">
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSearch}>
+    <div className="w-full max-w-xs mr-10 flex justify-center">
+      <form className="bg-white shadow-md rounded px-12 pt-6 pb-8 mb-5 mr-10" onSubmit={handleSearch}>
       <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" for="username">City</label>
+      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">City</label>
         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
           placeholder="Enter city"
@@ -54,7 +54,7 @@ function AirQuality() {
         />
         </div>
         <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" for="username">State</label>
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">State</label>
         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
           placeholder="Enter state"
@@ -63,7 +63,7 @@ function AirQuality() {
         />
         </div>
         <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" for="username">Country</label>
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">Country</label>
         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
           placeholder="Enter country"
@@ -73,27 +73,31 @@ function AirQuality() {
         </div>
         <button className="bg-[#00df9a] hover:bg-[#c8e1d9] text-white font-bold py-2 px-4 rounded-full" type="submit">Search</button>
       </form>
-      {apiData && (
-        <div className="w-full max-w-xs flex justify-center">
-          <div className="mb-4">
-          <p>
-            <strong>City:</strong> {apiData.data.city}
-          </p>
+       
+      <div className="w-full max-w-xs flex justify-center">
+        <div className="bg-white shadow-md rounded px-12 pt-6 pb-8 mb-4">
+          <div id="parent" className="mb-4">
+            {apiData && (
+              <h1 className="block text-gray-700 text-sm font-bold -mb-1 whitespace-nowrap">Air Quality Index (US):
+              </h1>
+              )}
+              {apiData && (
+              <p className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{apiData.data.current.pollution.aqius}
+              </p>
+              )}
+              {apiData && (
+              <p className="block text-gray-700 text-sm font-bold mb-5">Health Tips:
+              </p>
+              )}
+              {apiData && (
+              <p className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">render health tips
+              </p>
+              )}
+            </div>
           </div>
-          <div className="mb-4">
-          <p>
-            <strong>Country:</strong> {apiData.data.country}
-          </p>
-          </div>
-          <div className="mb-4">
-          <p>
-            <strong>AQI (US):</strong> {apiData.data.current.pollution.aqius}
-          </p>
-          </div>
-          {/* Add other air quality data here */}
         </div>
-      )}
     </div>
+    
   );
 
 }
