@@ -55,7 +55,7 @@ function AirQuality() {
   };
 
   return (
-    <div className="w-full max-w-xs mr-10 flex justify-center">
+    <div className="w-full max-w-lg mr-10 mx-auto flex justify-center">
       <form className="bg-white shadow-md rounded px-12 pt-6 pb-8 mb-5 mr-10" onSubmit={handleSearch}>
       <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">City</label>
@@ -87,7 +87,7 @@ function AirQuality() {
         <button className="bg-[#00df9a] hover:bg-[#c8e1d9] text-white font-bold py-2 px-4 rounded-full" type="submit">Search</button>
       </form>
        
-      <div className="w-full max-w-xs flex justify-center">
+      <div className="w-full max-w-lg mx-auto flex justify-center">
         <div className="bg-white shadow-md rounded px-12 pt-6 pb-8 mb-4">
           <div id="parent" className="mb-4">
             {apiData && (
