@@ -89,6 +89,7 @@ function AirQuality() {
        
       <div className="w-full max-w-lg mx-auto flex justify-center">
         <div className="bg-white shadow-md rounded px-12 pt-6 pb-8 mb-4">
+          <header className="block text-gray-700 text-sm font-bold -mb-1 whitespace-nowrap">AQI & Health Tips</header>
           <div id="parent" className="mb-4">
             {apiData && (
               <h1 className="block text-gray-700 text-sm font-bold -mb-1 whitespace-nowrap">Air Quality Index (US):
