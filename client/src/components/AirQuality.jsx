@@ -98,10 +98,7 @@ function AirQuality() {
               <p className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{apiData.data.current.pollution.aqius}
               </p>
               )}
-              {apiData && (
-              <p className="block text-gray-700 text-sm font-bold mb-5">Health Tips:
-              </p>
-              )}
+
               {apiData && (
               <>
                 <p className="block text-gray-700 text-sm font-bold mb-5">Health Tips:</p>
