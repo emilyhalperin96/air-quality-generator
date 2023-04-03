@@ -1,28 +1,22 @@
 import React from 'react';
-import Signup from './Signup';
-import {useState} from 'react';
 
-const About = () => {
-    const [showForm, setForm] = useState(false);
+const About = ({user, setUser}) => {
 
-    const handleForm = () => {
-        setForm((showForm) => !showForm)
-    }
-
-
-
+    function handleLogoutClick() {
+        fetch("/logout", { method: "DELETE" }).then((r) => {
+          if (r.ok) {
+            setUser(null);
+          }
+        });
+      }
     return (
-
-        <div className='text-white'>
-            <div className='max-w-[500px] mt-30 mx-auto text-center flex flex-col justify-center'>
-                <h1 className='text-6xl font-bold md:py-6'>Air Quality Application</h1>
-                <div>
-                    <p className='text-2xl font-bold'>This application allows users to look up the air quality in a given city. Once you input you're city, you'll recieve help tips.</p>
-                    <button onClick={handleForm} className='bg-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>
-                        Click to Get Access</button>
-                        {showForm ? <Signup /> : null}
-                </div>
-            </div>
+        <div className= 'flex justify-between items-center h-20 max-w-[1240] mx-auto px-4 bg-[#f6e1e7]'>
+            <h1 className='w-full text-3xl font-bold text-black'>Halpreads</h1>
+            <ul className='list-none flex'>
+                <li className='p-4'>About</li>
+                <li className='p-4'>Contact</li>
+            </ul>
+            <button onClick={handleLogoutClick}>Logout</button>
         </div>
     )
 }

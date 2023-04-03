@@ -1,5 +1,5 @@
 from app import app, db
-from models import User, Location, UserLocation
+from models import User
 
 def seed_data():
     # Add your seed data here

@@ -1,21 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './components/Navbar';
 import About from './components/About';
-import LocationDetails from './components/LocationDetails';
-import UserDashboard from './components/UserDashboard';
+import Signup from './components/Signup';
+import Login from './components/Login';
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // auto-login
+    fetch("/check_session").then((r) => {
+      if (r.ok) {
+        r.json().then((user) => setUser(user));
+      }
+    });
+  }, []);
+
+  if (!user) return <Login onLogin={setUser} />;
 
   return (
     <div>
+      
       <Router>
-        <Navbar />
+      <About user={user} setUser={setUser} />
         <Routes>
-          <Route exact path="/" element={<About />} />
-          <Route path ="/navbar" element={<Navbar />} />
-          <Route path="/location-details" element={<LocationDetails />} />
-          <Route path="/dashboard" element={<UserDashboard />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </Router>
     </div>
